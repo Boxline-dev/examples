@@ -1,5 +1,7 @@
 # Boxline examples
 
+**Give your AI agents the infrastructure they need: browsers, shells, storage and isolated machines.**
+
 Runnable examples for the Node and Python SDKs, and integrations with other tools. Each one does a real job on
 public demo sites or on "your site", and each has a **result check** that proves it worked, not just that it ran.
 They are legitimate automation only (public pages, demo sites made for automation, your own sites and accounts),
