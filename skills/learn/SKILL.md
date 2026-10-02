@@ -19,12 +19,12 @@ become kebab-case folder names.
 ## Boxline tools
 
 - The Boxline MCP server: `web_search` (with `fetch` for the top pages as Markdown), `fetch_url`.
-- Or the CLI (`BOXLINE_API_KEY` set, or `npx boxline login`):
+- Or the CLI (`BOXLINE_API_KEY` set, or `npx @boxline/cli login`):
 
   ```bash
-  npx boxline search "<topic> official documentation" --limit 8 --json
-  npx boxline search "<topic> official documentation getting started" --limit 5 --fetch 2 --json   # results and pages in one call
-  npx boxline fetch <url>                                                                         # Markdown
+  npx @boxline/cli search "<topic> official documentation" --limit 8 --json
+  npx @boxline/cli search "<topic> official documentation getting started" --limit 5 --fetch 2 --json   # results and pages in one call
+  npx @boxline/cli fetch <url>                                                                         # Markdown
   ```
 
 ## Steps

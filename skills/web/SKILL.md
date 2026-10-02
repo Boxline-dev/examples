@@ -12,7 +12,7 @@ Write `web.md`: what a public website has and how to get around it, from its ren
 Use whichever is there:
 
 - The Boxline MCP server: `fetch_url` (format `html` or `markdown`), `web_search`.
-- The `boxline` CLI (`npx boxline …`, with `BOXLINE_API_KEY` set or after `npx boxline login`).
+- The `boxline` CLI (`npx @boxline/cli …`, with `BOXLINE_API_KEY` set or after `npx @boxline/cli login`).
 
 ## Steps
 
@@ -20,7 +20,7 @@ Use whichever is there:
 2. **The pages.** Crawl the site (same host, robots.txt respected, at most 15 pages):
 
    ```bash
-   npx boxline crawl <url> --limit 15 --format html -o .boxline-web
+   npx @boxline/cli crawl <url> --limit 15 --format html -o .boxline-web
    ```
 
    With only the MCP server: `fetch_url` the start page as `html`, take its same-host links (no anchors, assets or

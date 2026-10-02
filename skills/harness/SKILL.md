@@ -57,11 +57,11 @@ agreement (it sends the project's committed files to their Boxline account), run
 
 ```bash
 git archive --format=tar.gz -o /tmp/project.tgz HEAD                 # committed files only: no .env, no node_modules
-ID=$(npx boxline sessions create --shell --no-browser --timeout 1800 --json | node -pe 'JSON.parse(require("fs").readFileSync(0)).id')
-npx boxline files put "$ID" project.tgz /tmp/project.tgz
-npx boxline exec "$ID" -- 'mkdir p && tar xzf project.tgz -C p && cd p && <install command> && <test command>'
-npx boxline exec "$ID" -- 'cd p && <build command>; cd p && <lint command>'
-npx boxline sessions release "$ID"
+ID=$(npx @boxline/cli sessions create --shell --no-browser --timeout 1800 --json | node -pe 'JSON.parse(require("fs").readFileSync(0)).id')
+npx @boxline/cli files put "$ID" project.tgz /tmp/project.tgz
+npx @boxline/cli exec "$ID" -- 'mkdir p && tar xzf project.tgz -C p && cd p && <install command> && <test command>'
+npx @boxline/cli exec "$ID" -- 'cd p && <build command>; cd p && <lint command>'
+npx @boxline/cli sessions release "$ID"
 ```
 
 Record what failed there and not here: missing environment variables (names only), system packages, setup steps,
@@ -73,8 +73,8 @@ Pick the framework and the 2 to 4 core libraries (not small utilities). For each
 installed version and read it:
 
 ```bash
-npx boxline search "<library> <major version> documentation" --limit 5
-npx boxline fetch <docs-url>
+npx @boxline/cli search "<library> <major version> documentation" --limit 5
+npx @boxline/cli fetch <docs-url>
 ```
 
 (or the MCP server's `web_search` and `fetch_url`). Keep only what bears on a failure from step 2 or 3, or what
