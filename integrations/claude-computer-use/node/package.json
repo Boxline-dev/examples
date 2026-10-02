@@ -1,0 +1,10 @@
+{
+  "name": "boxline-example-claude-computer-use",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.129.0",
+    "@boxline/sdk": "^1.1.0",
+    "tsx": "4.23.15"
+  }
+}

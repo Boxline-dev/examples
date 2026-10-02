@@ -1,0 +1,15 @@
+# What the examples write, and the runner's report and logs
+output/
+runner/out/
+# Each integration installs its own packages (pinned in its package.json / requirements.txt)
+node_modules/
+package-lock.json
+.venv/
+node_modules/
+dist/
+output/
+.env
+.venv/
+__pycache__/
+*.egg-info/
+.DS_Store

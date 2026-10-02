@@ -1,0 +1,19 @@
+{
+  "name": "@boxline/examples",
+  "private": true,
+  "description": "Runnable Boxline examples in Node and Python, each with a result check (pnpm examples:verify).",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@boxline/sdk": "^1.1.0",
+    "playwright-core": "^1.63.0"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.3",
+    "@types/node": "^22.15.0",
+    "tsx": "^4.23.15"
+  },
+  "license": "MIT"
+}

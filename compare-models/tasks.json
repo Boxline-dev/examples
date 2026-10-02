@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "book-price-and-stock",
+      "startUrl": "https://books.toscrape.com",
+      "instruction": "Find the book \"Sapiens: A Brief History of Humankind\" and report its price and how many are in stock.",
+      "pass": [{ "answerContains": "54.23" }, { "answerMatches": "\\b20\\b" }]
+    },
+    {
+      "id": "author-birth-date",
+      "startUrl": "https://quotes.toscrape.com",
+      "instruction": "Open the author page of Albert Einstein (linked from one of his quotes) and report his birth date.",
+      "pass": [{ "answerMatches": "march\\s+14|14(th)?\\s+(of\\s+)?march" }, { "answerContains": "1879" }, { "urlReached": "https://quotes.toscrape.com/author/Albert-Einstein" }]
+    },
+    {
+      "id": "teapot-status-code",
+      "startUrl": "https://www.rfc-editor.org/rfc/rfc2324",
+      "instruction": "What HTTP status code does this protocol say a teapot answers when it is asked to brew coffee? Report the number.",
+      "pass": [{ "answerMatches": "\\b418\\b" }]
+    }
+  ]
+}

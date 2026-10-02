@@ -1,0 +1,11 @@
+{
+  "name": "boxline-example-stagehand",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@boxline/sdk": "^1.1.0",
+    "@browserbasehq/stagehand": "3.7.3",
+    "tsx": "4.23.15",
+    "zod": "3.25.76"
+  }
+}
