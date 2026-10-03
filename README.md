@@ -35,10 +35,10 @@ with `userMetadata: {example: "<name>"}` and release them when they finish.
 | Data out | [prices-by-country](prices-by-country) | residential proxies, fetch, extract |
 | Data out | [download-all-images](download-all-images) | Playwright, cookie export, shell, files |
 | Documents | [financial-report-to-data](financial-report-to-data) | actions, shell (curl, pdftotext), extract |
-| Logins | [save-a-login](save-a-login) | saved logins (contexts), the live view |
-| Logins | [my-invoices](my-invoices) | a saved login, downloads, files |
-| Logins | [hand-over-for-a-code](hand-over-for-a-code) | a project secret for the password, hand-over |
-| Logins | [two-factor-sign-in](two-factor-sign-in) | saved login details with 2FA (`%login.otp%`), agent run |
+| Logins | [save-a-login](save-a-login) | browser profiles, the live view |
+| Logins | [my-invoices](my-invoices) | a profile, downloads, files |
+| Logins | [hand-over-for-a-code](hand-over-for-a-code) | a credential (a secret) for the password, hand-over |
+| Logins | [two-factor-sign-in](two-factor-sign-in) | a password credential with 2FA (`%NAME.otp%`) linked to a profile, agent run |
 | Forms | [form-from-spreadsheet](form-from-spreadsheet) | shell, plain-English steps with variables, a review |
 | Forms | [public-registry-lookup](public-registry-lookup) | agent run, extract |
 | Forms | [company-details-from-legal-pages](company-details-from-legal-pages) | crawl, extract |
@@ -55,6 +55,12 @@ with `userMetadata: {example: "<name>"}` and release them when they finish.
 | Browser + shell | [screenshots-to-pdf](screenshots-to-pdf) | screenshots, Python (Pillow) in the shell |
 | Browser + shell | [video-clip](video-clip) | shell (yt-dlp, ffmpeg) |
 | Browser + shell | [test-my-staging-site](test-my-staging-site) | shell (git, npm test), the browser for failures |
+| Browser + shell | [tables-to-csv](tables-to-csv) | tables read in the page (merged cells, two-row headers), CSV and sums in the shell |
+| Browser + shell | [session-replay-gif](session-replay-gif) | a session's recording, ffmpeg in a shell-only session |
+| Browser + shell | [solve-and-test](solve-and-test) | an agent run in a shell-only session, the tests rerun by the example |
+| Browser + shell | [docs-to-working-code](docs-to-working-code) | an agent reads API docs in the browser, writes and runs a client in the shell |
+| Browser + shell | [earnings-from-edgar](earnings-from-edgar) | SEC EDGAR's API in a shell-only session, growth and margins in Python, a chart |
+| AI agents | [wiki-race](wiki-race) | an agent run that clicks links only, every hop checked with Wikipedia's API in the shell |
 | Quality | [accessibility-check](accessibility-check) | shell, Playwright, axe-core |
 | Quality | [dark-pattern-review](dark-pattern-review) | agent run in a session, evaluate (scan.js), the extract action |
 | Chat and research | [chat-with-a-page](chat-with-a-page) | a session, the extract action per question, quotes checked |
@@ -115,7 +121,9 @@ python python/main.py                            # with the boxline package inst
 npx tsx check.ts output
 ```
 
-"Your site" examples take the site from environment variables (see each README).
+"Your site" examples take the site from environment variables (see each README). Where a README says what its check
+proves "on the stand-in", that is the set of test pages each example runs against before a release (they are not in
+this repository, and `site()` in a check is null without them); on your own pages the check's general rules apply.
 
 ---
 

@@ -15,11 +15,11 @@ check(async () => {
   const raw = await fetch(`${api}/v1/agent/runs/${r.agentRuns[0].id}`, { headers: { "x-api-key": process.env.BOXLINE_API_KEY ?? "" } }).then((x) => x.text());
   expect(raw.includes("%password%") || raw.includes('"steps"'), "could not read the run back from the API");
   expect(!raw.includes(password), "the stored run contains the password");
-  // The password came from the project secret: the run used it (audited once), and the API never shows the value.
+  // The password came from the credential: the run used it (audited once), and the API never shows the value.
   const headers = { "x-api-key": process.env.BOXLINE_API_KEY ?? "" };
-  const secret = await fetch(`${api}/v1/secrets/${r.secret}`, { headers }).then((x) => x.text());
-  expect(secret.includes(`"name":"${r.secret}"`) && !secret.includes(password), `the secret ${r.secret} is missing or shows its value`);
-  const audit = await fetch(`${api}/v1/secrets/audit?name=${r.secret}&limit=20`, { headers }).then((x) => x.json());
+  const secret = await fetch(`${api}/v1/credentials/${r.secret}`, { headers }).then((x) => x.text());
+  expect(secret.includes(`"name":"${r.secret}"`) && !secret.includes(password), `the credential ${r.secret} is missing or shows its value`);
+  const audit = await fetch(`${api}/v1/credentials/audit?name=${r.secret}&limit=20`, { headers }).then((x) => x.json());
   expect(audit.data.some((e: any) => e.action === "use" && e.usedBy?.id === r.agentRuns[0].id), `no audited use of ${r.secret} by run ${r.agentRuns[0].id}`);
-  return `the site saw the password (from the project secret ${r.secret}), then the code (${steps.join(" → ")}); the AI asked ${r.handovers}× and answered "${String(r.answer).slice(0, 50)}"; the run never holds the password; the secret's use is audited`;
+  return `the site saw the password (from the credential ${r.secret}), then the code (${steps.join(" → ")}); the AI asked ${r.handovers}× and answered "${String(r.answer).slice(0, 50)}"; the run never holds the password; the credential's use is audited`;
 });

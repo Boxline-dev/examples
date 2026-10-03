@@ -1,11 +1,11 @@
 /**
  * Save a login once: you sign in by hand in the live view once; the session saves its cookies and local storage into
- * a saved login when it ends, and later sessions start from it already signed in.
+ * a profile when it ends, and later sessions start from it already signed in.
  *
- *   SIGNIN_URL=https://… CHECK_URL=https://… npx tsx node/index.ts     (BOXLINE_API_KEY; a plan with saved logins)
+ *   SIGNIN_URL=https://… CHECK_URL=https://… npx tsx node/index.ts     (BOXLINE_API_KEY; a plan with profiles)
  *
  * CHECK_URL is a page that shows you are signed in (your account page). Writes output/result.json with the saved
- * login's id: pass it as CONTEXT_ID to the "my-invoices" example, or to `context: {id}` in your own sessions.
+ * login's id: pass it as PROFILE_ID to the "my-invoices" example, or to `profile: {id}` in your own sessions.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -19,12 +19,12 @@ const checkUrl = process.env.CHECK_URL ?? signin;
 const name = process.env.LOGIN_NAME ?? `${new URL(signin).host} (saved by the example)`;
 const bx = new Boxline();
 
-const saved = await bx.contexts.create({ name });
-console.log(`Saved login ${saved.id} ("${name}")`);
+const saved = await bx.profiles.create({ name });
+console.log(`Browser profile ${saved.id} ("${name}")`);
 
-// 1. A session that writes its browser state into the saved login when it ends (persist: true). keepAlive: it keeps
+// 1. A session that writes its browser state into the profile when it ends (persist: true). keepAlive: it keeps
 //    running while nobody is connected (you, in the live view, come and go).
-const first = await bx.sessions.create({ timeout: 900, keepAlive: true, context: { id: saved.id, persist: true }, userMetadata: { example: "save-a-login" } });
+const first = await bx.sessions.create({ timeout: 900, keepAlive: true, profile: { id: saved.id, persist: true }, userMetadata: { example: "save-a-login" } });
 console.log(`Session: ${first.id}`);
 try {
   await first.goto(signin);
@@ -33,11 +33,11 @@ try {
   await rl.question("Sign in in the live view, then press Enter when you are signed in: ");
   rl.close();
 } finally {
-  await first.release(); // ending the session saves the cookies and local storage into the saved login
+  await first.release(); // ending the session saves the cookies and local storage into the profile
 }
 
-// 2. Any later session started from the saved login is signed in already (it does not change the saved login).
-const second = await bx.sessions.create({ timeout: 300, context: { id: saved.id }, userMetadata: { example: "save-a-login" } });
+// 2. Any later session started from the profile is signed in already (it does not change the profile).
+const second = await bx.sessions.create({ timeout: 300, profile: { id: saved.id }, userMetadata: { example: "save-a-login" } });
 console.log(`Session: ${second.id}`);
 try {
   const page = await second.goto(checkUrl);
@@ -46,9 +46,9 @@ try {
   mkdirSync(out, { recursive: true });
   writeFileSync(
     join(out, "result.json"),
-    JSON.stringify({ contextId: saved.id, name, signinUrl: signin, checkUrl, sessions: [first.id, second.id], landedOn: page.url, title: page.title, text: content.slice(0, 1000) }, null, 2),
+    JSON.stringify({ profileId: saved.id, name, signinUrl: signin, checkUrl, sessions: [first.id, second.id], landedOn: page.url, title: page.title, text: content.slice(0, 1000) }, null, 2),
   );
-  console.log(`\nSaved login: ${saved.id} (start sessions with context: {id: "${saved.id}"})`);
+  console.log(`\nBrowser profile: ${saved.id} (start sessions with profile: {id: "${saved.id}"})`);
 } finally {
   await second.release();
 }

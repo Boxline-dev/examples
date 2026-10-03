@@ -1,11 +1,11 @@
 # Hand over for a code
 
-The AI signs in with your username and a password kept in the project's secrets; when the site asks for a code sent by SMS or an app, it pauses and asks you, then types the code and carries on. The run names the secret (`secrets: ["SIGNIN_PASSWORD"]`) and the model only ever sees `%SIGNIN_PASSWORD%`.
+The AI signs in with your username and a password kept as a credential; when the site asks for a code sent by SMS or an app, it pauses and asks you, then types the code and carries on. The run names the credential (`credentials: ["SIGNIN_PASSWORD"]`) and the model only ever sees `%SIGNIN_PASSWORD%`.
 
 | | |
 |---|---|
-| Uses | `secrets.create` (the password, limited to the sign-in site with `origins`), `agent.run` with `secrets` and `variables`, `agent.stream`, `agent.handBack` |
-| Needs | a plan with project secrets, and a model on the API |
+| Uses | `credentials.create` (the password as a secret, limited to the sign-in site with `origins`), `agent.run` with `credentials` and `variables`, `agent.stream`, `agent.handBack` |
+| Needs | a plan with room for credentials, and a model on the API |
 | Site | your sign-in page (`SIGNIN_URL`). The runner uses its stand-in (password, then a 6-digit code) and types the code |
 | Output | `output/result.json` |
 
@@ -15,8 +15,8 @@ The AI signs in with your username and a password kept in the project's secrets;
 
 - `SIGNIN_URL`: your sign-in page (required).
 - `SITE_USERNAME`: your username (required).
-- `SITE_PASSWORD`: your password, stored into the project secret the first time (keep it in the environment, never in code; later runs need only the secret).
-- `SECRET_NAME`: the project secret's name (default `SIGNIN_PASSWORD`).
+- `SITE_PASSWORD`: your password, stored into the credential the first time (keep it in the environment, never in code; later runs need only the credential).
+- `SECRET_NAME`: the credential's name (default `SIGNIN_PASSWORD`).
 
 ## Run it
 
@@ -41,5 +41,5 @@ Both write to `output/` (`OUTPUT_DIR` picks another folder) and release their se
 
 ## The result check
 
-`npx tsx check.ts output` reads what the example wrote and exits with 0 only when the result is right. The site saw the password and then the code, the AI asked at least once and named the signed-in user, the run the API keeps never holds the password, and the secret's use by the run is in its audit log.
+`npx tsx check.ts output` reads what the example wrote and exits with 0 only when the result is right. The site saw the password and then the code, the AI asked at least once and named the signed-in user, the run the API keeps never holds the password, and the credential's use by the run is in its audit log.
 

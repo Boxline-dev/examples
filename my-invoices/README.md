@@ -1,18 +1,18 @@
 # My invoices
 
-Open your billing page signed in with a saved login and download the invoices of the last 3 months through the browser; the files API copies them to your computer.
+Open your billing page signed in with a profile and download the invoices of the last 3 months through the browser; the files API copies them to your computer.
 
 | | |
 |---|---|
-| Uses | sessions with `context: {id}`, Playwright over CDP, the downloads folder, `files.list` and `files.read` |
-| Needs | a plan with saved logins, and a saved login signed in to the site (from "Save a login once"); no model |
+| Uses | sessions with `profile: {id}`, Playwright over CDP, the downloads folder, `files.list` and `files.read` |
+| Needs | a plan with profiles, and a profile signed in to the site (from "Save a login once"); no model |
 | Site | your billing page (`BILLING_URL`) with dates written YYYY-MM-DD. The runner uses its stand-in billing page |
 | Output | `output/invoices/*.pdf` and `output/result.json` |
 
 **Inputs** (environment variables):
 
 - `BILLING_URL`: your billing page (required).
-- `CONTEXT_ID`: a saved login signed in to that site (required).
+- `PROFILE_ID`: a profile signed in to that site (required).
 - `MONTHS`: this month and the months before (default `3`).
 
 ## Run it

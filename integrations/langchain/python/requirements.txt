@@ -1,4 +1,4 @@
 # Outside this repository: pip install boxline-sdk langchain langchain-openai
-boxline-sdk>=1.1.0
+boxline-sdk>=1.2.0
 langchain==1.4.3
 langchain-openai==1.6.6

@@ -1,9 +1,9 @@
 /**
- * My invoices: open your billing page signed in with a saved login and download the invoices of the last 3 months.
+ * My invoices: open your billing page signed in with a profile and download the invoices of the last 3 months.
  *
- *   BILLING_URL=https://… CONTEXT_ID=… npx tsx node/index.ts     (BOXLINE_API_KEY; MONTHS, default 3)
+ *   BILLING_URL=https://… PROFILE_ID=… npx tsx node/index.ts     (BOXLINE_API_KEY; MONTHS, default 3)
  *
- * CONTEXT_ID is a saved login that is signed in to the site (make one with the "save-a-login" example). The browser
+ * PROFILE_ID is a profile that is signed in to the site (make one with the "save-a-login" example). The browser
  * downloads each invoice into the session's downloads/ folder; the files API copies them to output/invoices/.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -13,9 +13,9 @@ import { chromium } from "playwright-core";
 
 const out = process.env.OUTPUT_DIR ?? "output";
 const billing = process.env.BILLING_URL;
-const contextId = process.env.CONTEXT_ID;
+const profileId = process.env.PROFILE_ID;
 const months = Number(process.env.MONTHS ?? 3);
-if (!billing || !contextId) throw new Error("Set BILLING_URL (your billing page) and CONTEXT_ID (a saved login signed in to that site)");
+if (!billing || !profileId) throw new Error("Set BILLING_URL (your billing page) and PROFILE_ID (a profile signed in to that site)");
 const bx = new Boxline();
 
 // The first day of the month `months - 1` months ago: "the last 3 months" is this month and the two before.
@@ -39,13 +39,13 @@ async function newDownload(session: Session, before: Set<string>, timeoutMs = 30
   throw new Error("the download did not arrive");
 }
 
-const session = await bx.sessions.create({ shell: false, timeout: 600, context: { id: contextId }, userMetadata: { example: "my-invoices" } });
+const session = await bx.sessions.create({ shell: false, timeout: 600, profile: { id: profileId }, userMetadata: { example: "my-invoices" } });
 console.log(`Session: ${session.id}`);
 const browser = await chromium.connectOverCDP(session.connectUrl!);
 try {
   const page = browser.contexts()[0]!.pages()[0]!;
   await page.goto(billing);
-  if (/log.?in|sign.?in/i.test(page.url())) throw new Error(`the saved login is not signed in (the site sent the browser to ${page.url()}): run save-a-login again`);
+  if (/log.?in|sign.?in/i.test(page.url())) throw new Error(`the profile is not signed in (the site sent the browser to ${page.url()}): run save-a-login again`);
 
   // The billing table: each row's cells and its PDF link; the date is the first cell that reads as YYYY-MM-DD.
   const rows = await page.$$eval("tr", (trs) =>

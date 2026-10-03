@@ -1,8 +1,8 @@
-"""My invoices: open your billing page signed in with a saved login and download the invoices of the last 3 months.
+"""My invoices: open your billing page signed in with a profile and download the invoices of the last 3 months.
 
-    BILLING_URL=https://… CONTEXT_ID=… python python/main.py     (BOXLINE_API_KEY; MONTHS, default 3)
+    BILLING_URL=https://… PROFILE_ID=… python python/main.py     (BOXLINE_API_KEY; MONTHS, default 3)
 
-CONTEXT_ID is a saved login that is signed in to the site (make one with the "save-a-login" example). The browser
+PROFILE_ID is a profile that is signed in to the site (make one with the "save-a-login" example). The browser
 downloads each invoice into the session's downloads/ folder; the files API copies them to output/invoices/.
 """
 import json
@@ -19,10 +19,10 @@ from boxline import Boxline, NotFoundError
 
 out = Path(os.environ.get("OUTPUT_DIR", "output"))
 billing = os.environ.get("BILLING_URL")
-context_id = os.environ.get("CONTEXT_ID")
+profile_id = os.environ.get("PROFILE_ID")
 months = int(os.environ.get("MONTHS", "3"))
-if not billing or not context_id:
-    raise SystemExit("Set BILLING_URL (your billing page) and CONTEXT_ID (a saved login signed in to that site)")
+if not billing or not profile_id:
+    raise SystemExit("Set BILLING_URL (your billing page) and PROFILE_ID (a profile signed in to that site)")
 bx = Boxline()
 
 # The first day of the month `months - 1` months ago: "the last 3 months" is this month and the two before.
@@ -51,12 +51,12 @@ def new_download(session, before: set, timeout: float = 30) -> dict:
     raise SystemExit("the download did not arrive")
 
 
-with bx.sessions.create(timeout=600, context=context_id, user_metadata={"example": "my-invoices"}) as session, sync_playwright() as p:
+with bx.sessions.create(timeout=600, profile=profile_id, user_metadata={"example": "my-invoices"}) as session, sync_playwright() as p:
     print(f"Session: {session.id}", flush=True)
     page = p.chromium.connect_over_cdp(session.connect_url).contexts[0].pages[0]
     page.goto(billing)
     if re.search(r"log.?in|sign.?in", page.url, re.I):
-        raise SystemExit(f"the saved login is not signed in (the site sent the browser to {page.url}): run save-a-login again")
+        raise SystemExit(f"the profile is not signed in (the site sent the browser to {page.url}): run save-a-login again")
 
     # The billing table: each row's cells and its PDF link; the date is the first cell that reads as YYYY-MM-DD.
     rows = page.eval_on_selector_all(

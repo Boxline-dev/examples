@@ -12,5 +12,5 @@ check(() => {
   const served = [...standIn.records.invoicesServed].sort();
   expect(JSON.stringify(served) === JSON.stringify(want), `the site served ${served.join(", ")} (only the last 3 months, to a signed-in browser)`);
   expect(r.invoices.every((i: any) => i.file === `invoices/${i.id}.pdf` && bytes(i.file).toString("latin1").includes(`Invoice ${i.id}`)), "a downloaded file is not its invoice");
-  return `signed in by the saved login (no sign-in page); downloaded ${got.join(", ")} (since ${r.since}) as PDFs through the browser; the older invoice was left alone`;
+  return `signed in by the profile (no sign-in page); downloaded ${got.join(", ")} (since ${r.since}) as PDFs through the browser; the older invoice was left alone`;
 });

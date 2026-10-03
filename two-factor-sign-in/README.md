@@ -1,13 +1,13 @@
 # Two-factor sign-in
 
-Keep a site's sign-in details on a saved login once (user name, password and the 2FA setup key), then an agent run signs in with `%login.username%`, `%login.password%` and `%login.otp%`: the platform makes the current 6-digit code at the moment it is typed. The model never sees any of them, and they are typed only on that site.
+Keep a site's sign-in details as a password credential once (user name, password and the 2FA setup key) and link it to a profile, then an agent run signs in with `%NAME.username%`, `%NAME.password%` and `%NAME.otp%`: the platform makes the current 6-digit code at the moment it is typed. The model never sees any of them, and they are typed only on that site.
 
 | | |
 |---|---|
-| Uses | `contexts.create`, `contexts.setLogin` (`set_login`), `agent.run` with `context`, `agent.stream` |
-| Needs | a plan with saved login details, and a model on the API |
+| Uses | `profiles.create`, `credentials.create` (a password with a 2FA key), `profiles.update` (`credential`), `agent.run` with `profile`, `agent.stream` |
+| Needs | a plan with password credentials (`loginDetails`), and a model on the API |
 | Site | your sign-in page with an authenticator-app code (`SIGNIN_URL`). The runner uses its stand-in: a password page, then a real TOTP check |
-| Output | `output/result.json` with the saved login's id and what it shows of its details |
+| Output | `output/result.json` with the profile's id and what the credential shows of itself |
 
 **Inputs** (environment variables):
 
@@ -15,7 +15,8 @@ Keep a site's sign-in details on a saved login once (user name, password and the
 - `SITE_USERNAME`: your user name or email.
 - `SITE_PASSWORD`: your password (keep it in the environment, never in code).
 - `SITE_TOTP_SECRET`: the site's 2FA setup key (base32) or otpauth:// link, as shown when you turn on an authenticator app.
-- `CONTEXT_ID`: a saved login that already has details (then the three above are not needed).
+- `CREDENTIAL_NAME`: the credential's name (default `TWO_FACTOR_EXAMPLE`).
+- `PROFILE_ID`: a profile that already links a password credential (then the three above are not needed).
 
 ## Run it
 
@@ -40,5 +41,5 @@ Both write to `output/` (`OUTPUT_DIR` picks another folder) and release their se
 
 ## The result check
 
-`npx tsx check.ts output` reads what the example wrote and exits with 0 only when the result is right. On the stand-in, the site saw the password and then a valid 2FA code, the answer names the signed-in user, the run holds none of the user name, the password or the code, and the saved login shows only that it has a password and a 2FA key.
+`npx tsx check.ts output` reads what the example wrote and exits with 0 only when the result is right. On the stand-in, the site saw the password and then a valid 2FA code, the answer names the signed-in user, the run holds none of the user name, the password or the code, and the credential shows only its user name and that it has a 2FA key.
 
