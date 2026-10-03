@@ -1,3 +1,3 @@
 # Outside this repository: pip install boxline-sdk browser-use
-boxline-sdk>=1.2.0
+boxline-sdk>=1.3.0
 browser-use==0.13.10

@@ -39,6 +39,7 @@ with `userMetadata: {example: "<name>"}` and release them when they finish.
 | Logins | [my-invoices](my-invoices) | a profile, downloads, files |
 | Logins | [hand-over-for-a-code](hand-over-for-a-code) | a credential (a secret) for the password, hand-over |
 | Logins | [two-factor-sign-in](two-factor-sign-in) | a password credential with 2FA (`%NAME.otp%`) linked to a profile, agent run |
+| Logins | [email-code-sign-in](email-code-sign-in) | a password credential whose codes you push (`codeSource: "push"`), `credentials.pushCode`, a `code` step in the run |
 | Forms | [form-from-spreadsheet](form-from-spreadsheet) | shell, plain-English steps with variables, a review |
 | Forms | [public-registry-lookup](public-registry-lookup) | agent run, extract |
 | Forms | [company-details-from-legal-pages](company-details-from-legal-pages) | crawl, extract |
