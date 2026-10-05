@@ -1,5 +1,5 @@
 /**
- * Sessions and Playwright: start a session, connect Playwright to its browser, read a page, release the session.
+ * Sessions and Playwright: start a session, connect Playwright to its browser, read a page, stop the session.
  *
  *   npx tsx node/index.ts            (BOXLINE_API_KEY in the environment)
  *
@@ -35,6 +35,6 @@ try {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, "result.json"), JSON.stringify({ sessionId: session.id, title, books, actionsTitle }, null, 2));
 } finally {
-  await session.release(); // ends the session and its billing
+  await session.stop(); // saves the session and ends its billing
   await browser.close().catch(() => undefined);
 }

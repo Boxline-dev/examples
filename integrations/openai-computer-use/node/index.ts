@@ -75,5 +75,5 @@ try {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, "result.json"), JSON.stringify({ model, task, start, answer, actions, usage: { ownModelTokens: tokens } }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

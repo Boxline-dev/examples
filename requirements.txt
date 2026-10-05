@@ -1,4 +1,4 @@
 # The Python halves of the examples (not the integrations: each has its own requirements.txt).
 # Outside this repository: pip install boxline-sdk playwright
-boxline-sdk>=1.3.0
+boxline-sdk>=2.0.0
 playwright==1.63.0

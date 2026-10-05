@@ -31,7 +31,7 @@ with bx.sessions.create(browser=False, shell=True, setup=["pip install -q wordfr
         raise SystemExit(f"signals.py failed: {r['stderr'].strip()}")
     print(r["stdout"].strip())
     signals = json.loads(session.files.read_text("signals.json"))
-# the session is released here: the predictions below need no machine of ours
+# the session is stopped here: the predictions below need no machine of ours
 
 if not signals["themes"]:
     raise SystemExit("no theme is shared by two stories in this window; widen WINDOW_HOURS or lower MIN_POINTS")

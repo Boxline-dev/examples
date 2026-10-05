@@ -20,7 +20,7 @@ task = os.environ.get("TASK", "Open https://books.toscrape.com, go to the Poetry
 
 async def main() -> None:
     async with AsyncBoxline() as bx:
-        # keep_alive on both sides: the session stays up while Browser Use connects, until it is released below.
+        # keep_alive on both sides: the session stays up while Browser Use connects, until it is stopped below.
         session = await bx.sessions.create(timeout=600, keep_alive=True, user_metadata={"example": "integrations/browser-use"})
         print(f"Session: {session.id}", flush=True)
         browser = Browser(cdp_url=session.connect_url, keep_alive=True)  # a signed address: treat it like a password
@@ -37,7 +37,7 @@ async def main() -> None:
             (out / "result.json").write_text(json.dumps(result, indent=2, ensure_ascii=False))
         finally:
             await browser.stop()  # disconnects Browser Use (the browser itself keeps running)...
-            await session.release()  # ...until the session is released: that ends it and its billing
+            await session.stop()  # ...until the session is stopped: that saves it and ends its billing
 
 
 asyncio.run(main())

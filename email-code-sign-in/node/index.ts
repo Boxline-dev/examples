@@ -94,7 +94,7 @@ try {
     made: { credentials: credentialMade ? [name] : [] },
   };
 } finally {
-  await session.release();
+  await session.stop();
   if (credentialMade) await bx.credentials.delete(name).catch(() => undefined);
 }
 mkdirSync(out, { recursive: true });

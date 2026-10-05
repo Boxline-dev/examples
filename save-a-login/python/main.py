@@ -25,7 +25,7 @@ saved = bx.profiles.create(name)
 print(f'Browser profile {saved["id"]} ("{name}")')
 
 # 1. A session that writes its browser state into the profile when it ends (persist_profile=True). keep_alive: it
-#    keeps running while nobody is connected (you, in the live view, come and go). Leaving `with` releases it,
+#    keeps running while nobody is connected (you, in the live view, come and go). Leaving `with` stops it,
 #    which saves the cookies and local storage into the profile.
 with bx.sessions.create(timeout=900, keep_alive=True, profile=saved["id"], persist_profile=True, user_metadata={"example": "save-a-login"}) as first:
     print(f"Session: {first.id}", flush=True)

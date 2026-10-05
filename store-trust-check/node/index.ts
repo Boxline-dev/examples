@@ -92,7 +92,7 @@ try {
     results.push({ store, risk, score, signals, facts: f, domain: { name: domain, registered, ageDays }, certificateIssuer: issuer, pagesRead: [store, ...policyPages].slice(0, 10) });
   }
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 const md = (results as { store: string; risk: string; score: number; signals: { points: number; why: string }[] }[])

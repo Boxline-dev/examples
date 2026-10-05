@@ -64,7 +64,7 @@ try {
   console.log(run.stdout.trim());
   stack = JSON.parse(await session.files.readText("stack.json"));
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 const total = Object.values(stack.linesByLanguage).reduce((a, b) => a + b, 0);

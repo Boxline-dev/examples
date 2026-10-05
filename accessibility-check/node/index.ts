@@ -50,6 +50,6 @@ try {
   writeFileSync(join(out, "issues.json"), JSON.stringify(issues, null, 2));
   writeFileSync(join(out, "result.json"), JSON.stringify({ url, axe: AXE, issues }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
   await browser.close().catch(() => undefined);
 }

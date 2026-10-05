@@ -42,6 +42,6 @@ try {
   console.log(`${saved} images saved in the workspace's output/images; output/images.zip (${Math.round(zip.length / 1024)} KB) is here`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ page: url, found: images.length, saved, zipBytes: zip.length, images }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
   await browser.close().catch(() => undefined);
 }

@@ -1,4 +1,4 @@
-"""Sessions and Playwright: start a session, connect Playwright to its browser, read a page, release the session.
+"""Sessions and Playwright: start a session, connect Playwright to its browser, read a page, stop the session.
 
     python python/main.py            (BOXLINE_API_KEY in the environment)
 
@@ -15,7 +15,7 @@ from boxline import Boxline
 out = Path(os.environ.get("OUTPUT_DIR", "output"))
 bx = Boxline()  # reads BOXLINE_API_KEY, and BOXLINE_API_URL for another API
 
-# Leaving the `with` block releases the session (and ends its billing).
+# Leaving the `with` block stops the session (saving it, and ending its billing).
 with bx.sessions.create(timeout=300, user_metadata={"example": "sessions-and-playwright"}) as session:
     print(f"Session: {session.id}", flush=True)
     with sync_playwright() as p:

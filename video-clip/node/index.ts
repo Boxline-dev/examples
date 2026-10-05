@@ -38,5 +38,5 @@ try {
   console.log(`output/clip.mp4: ${duration.toFixed(1)} s, ${Math.round(clip.length / 1024)} KB`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ video, seconds, source, duration, bytes: clip.length }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

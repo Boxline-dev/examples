@@ -61,7 +61,7 @@ try {
   if (run.status !== "completed" || !run.result) throw new Error(`the run ${run.status}: ${run.error ?? "no answer"}`);
   changelog = run.result;
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 // 3. An item without commits is not part of the release notes (it is kept apart); every cited commit must be one of

@@ -60,5 +60,5 @@ try {
   writeFileSync(join(out, "result.json"), JSON.stringify({ url, finalUrl: page.url, title: page.title, status: opened.status, turns, usage: { modelUsd } }, null, 2));
   console.log(`${turns.length} answers for $${modelUsd.toFixed(4)} of model use.`);
 } finally {
-  await session.release();
+  await session.stop();
 }

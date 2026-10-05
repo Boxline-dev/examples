@@ -55,7 +55,7 @@ try {
   // 2. The same element, measured exactly in the page.
   cta = await session.evaluate<Measured | null>(`(${measure})(${JSON.stringify(seen.text)})`);
 } finally {
-  await session.release();
+  await session.stop();
 }
 if (!cta) throw new Error(`no button or link with the text "${seen.text}" was found in the page`);
 

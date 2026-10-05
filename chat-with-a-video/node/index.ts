@@ -55,7 +55,7 @@ try {
   if (run.status !== "completed" || !run.result) throw new Error(`the run ${run.status}: ${run.error ?? "no answer"}`);
   result = run.result;
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 // Every moment must be a caption's time in the transcript.

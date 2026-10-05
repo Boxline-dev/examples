@@ -138,5 +138,5 @@ try {
     JSON.stringify({ task, status: done.status, review: done.result, pages, steps: done.steps.length, scans, agentRuns: [{ id: run.id }], model: done.model, usage: { modelUsd } }, null, 2),
   );
 } finally {
-  await session.release();
+  await session.stop();
 }

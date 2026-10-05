@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@boxline/sdk": "^1.3.0",
+    "@boxline/sdk": "^2.0.0",
     "openai": "7.25.0",
     "tsx": "4.23.15"
   }

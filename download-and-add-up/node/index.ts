@@ -55,6 +55,6 @@ PY`);
   writeFileSync(join(out, "total.txt"), total + "\n");
   writeFileSync(join(out, "result.json"), JSON.stringify({ report: file.path, total, form: formUrl, pageSays }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
   await browser.close().catch(() => undefined);
 }

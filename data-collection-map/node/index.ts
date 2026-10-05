@@ -75,7 +75,7 @@ try {
       return { name: name!, domain: host, httpOnly, secure: secure === "TRUE", thirdParty: site(host) !== mine };
     });
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 const collected = [...new Set(pages.flatMap((p) => p.forms.flatMap((f) => f.kinds)))];

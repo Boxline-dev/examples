@@ -57,7 +57,7 @@ try {
     }
   }
 } finally {
-  await browser.release();
+  await browser.stop();
 }
 for (const l of load) console.log(`${l.state.toUpperCase().padEnd(5)} ${String(l.loadMs).padStart(6)} ms  ${l.url}${l.reason ? `  (${l.reason})` : ""}`);
 const count = (state: string) => load.filter((l) => l.state === state).length;

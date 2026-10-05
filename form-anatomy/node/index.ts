@@ -33,7 +33,7 @@ try {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, "form.png"), Buffer.from(shot.data, "base64"));
 } finally {
-  await session.release();
+  await session.stop();
 }
 if (!form) throw new Error(`no form${selector ? ` matches ${selector}` : ""} on ${url}`);
 

@@ -33,7 +33,7 @@ pip install boxline-sdk playwright
 python python/main.py
 ```
 
-Both write to `output/` (`OUTPUT_DIR` picks another folder) and release their sessions when they finish.
+Both write to `output/` (`OUTPUT_DIR` picks another folder) and stop their sessions when they finish.
 
 ## The result check
 

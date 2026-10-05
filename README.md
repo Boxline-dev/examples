@@ -19,7 +19,7 @@ Every example folder has:
 | `check.ts` | the result check: `npx tsx check.ts output` exits with 0 only when the result is right (it uses `runner/check-lib.ts`, so it runs inside this folder tree) |
 
 Both versions write the same `output/result.json` (and files), so one check covers both. They tag their sessions
-with `userMetadata: {example: "<name>"}` and release them when they finish.
+with `userMetadata: {example: "<name>"}` and stop them when they finish.
 
 ## The examples
 

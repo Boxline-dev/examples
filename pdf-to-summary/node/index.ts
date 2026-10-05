@@ -42,5 +42,5 @@ try {
   writeFileSync(join(out, "summary.md"), summary);
   writeFileSync(join(out, "result.json"), JSON.stringify({ pdfUrl, pdfBytes, textChars: text.length, title: data.title, bullets: data.bullets, model, usage: { modelUsd: usage.costUsd } }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

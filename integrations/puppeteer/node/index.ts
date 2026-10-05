@@ -31,6 +31,6 @@ try {
   console.log(`${heading}: ${books.length} books, e.g. ${books[0]?.title} ${books[0]?.price}`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ sessionId: session.id, url: page!.url(), heading, books, screenshotBytes: png.length }, null, 2));
 } finally {
-  await session.release(); // ends the session (and its billing); the connection closes with it
+  await session.stop(); // saves the session and ends its billing; the connection closes with it
   await browser.disconnect().catch(() => undefined);
 }

@@ -52,7 +52,7 @@ try {
   writeFileSync(join(out, "article.mp3"), await session.files.read("article.mp3"));
   writeFileSync(join(out, "article.txt"), text);
 } finally {
-  await session.release();
+  await session.stop();
 }
 console.log(`article.mp3: ${durationSeconds} s (${voice}, ${speed} words per minute)`);
 writeFileSync(join(out, "result.json"), JSON.stringify({ url, title: r.data.title, paragraphs, dropped: r.data.paragraphs.length - paragraphs.length, words, voice, speed, durationSeconds, usage: { modelUsd: r.usage.costUsd } }, null, 2));

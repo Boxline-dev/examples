@@ -68,5 +68,5 @@ try {
     JSON.stringify({ startUrl, target, agent: run.result, visited, verified, toolSteps: toolSteps.map((s) => s.name), agentRuns: [{ id: run.id }] }, null, 2),
   );
 } finally {
-  await session.release();
+  await session.stop();
 }

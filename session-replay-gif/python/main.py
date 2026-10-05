@@ -19,11 +19,14 @@ start = os.environ.get("START_URL", "https://books.toscrape.com/")
 bx = Boxline()
 
 # 1. The browse to record: the shop, a category, a book, and back.
-with bx.sessions.create(timeout=300, user_metadata={"example": "session-replay-gif"}) as browse:  # released at the end: a last frame
+with bx.sessions.create(timeout=300, user_metadata={"example": "session-replay-gif"}) as browse:  # stopped at the end: a last frame
     print(f"Session: {browse.id} (the browse)", flush=True)
     browse.goto(start)
     browse.click(selector='a[href*="category/books/travel_2"]')
     browse.click(selector="article.product_pod h3 a")
+    # A moment on the book's page, as a person would: the recording keeps a screen after a page loads, at most one per 250 ms.
+    browse.wait(selector="article.product_page")
+    browse.wait(ms=800)
     browse.back()
 
 # 2. Its recording: the frames and when each was taken.

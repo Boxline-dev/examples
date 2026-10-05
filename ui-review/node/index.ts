@@ -42,7 +42,7 @@ async function look(name: string, viewport: { width: number; height: number }): 
     writeFileSync(join(out, `${name}.png`), Buffer.from(shot.data, "base64"));
     return await session.evaluate<Measures>(measure);
   } finally {
-    await session.release();
+    await session.stop();
   }
 }
 

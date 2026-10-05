@@ -1,6 +1,6 @@
 # Sessions and Playwright
 
-Start a session, connect Playwright to its browser over CDP, read a page, and release the session. The same page is then read through the actions API, which drives the browser without Playwright.
+Start a session, connect Playwright to its browser over CDP, read a page, and stop the session. The same page is then read through the actions API, which drives the browser without Playwright.
 
 | | |
 |---|---|
@@ -28,7 +28,7 @@ pip install boxline-sdk playwright
 python python/main.py
 ```
 
-Both write to `output/` (`OUTPUT_DIR` picks another folder) and release their sessions when they finish.
+Both write to `output/` (`OUTPUT_DIR` picks another folder) and stop their sessions when they finish.
 
 ## The result check
 

@@ -19,7 +19,7 @@ const modelName = process.env.STAGEHAND_MODEL ?? "openai/gpt-6-luna";
 if (!process.env.OPENAI_API_KEY) throw new Error("Set OPENAI_API_KEY: Stagehand calls the model itself");
 const bx = new Boxline();
 
-// keepAlive: the session stays up while Stagehand connects, and until it is released below.
+// keepAlive: the session stays up while Stagehand connects, and until it is stopped below.
 const session = await bx.sessions.create({ timeout: 600, keepAlive: true, userMetadata: { example: "integrations/stagehand" } });
 console.log(`Session: ${session.id}`);
 const stagehand = new Stagehand({
@@ -54,5 +54,5 @@ try {
   );
 } finally {
   await stagehand.close().catch(() => undefined);
-  await session.release();
+  await session.stop();
 }

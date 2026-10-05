@@ -71,5 +71,5 @@ try {
   writeFileSync(join(out, "answers.md"), md);
   writeFileSync(join(out, "result.json"), JSON.stringify({ repoUrl, head, questions, answers: run.result.answers, missingFiles: missing, toolSteps: run.steps.filter((s) => s.type === "tool").map((s) => ({ name: s.name, input: s.input })), agentRuns: [{ id: run.id }] }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

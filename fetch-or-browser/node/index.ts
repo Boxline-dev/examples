@@ -41,5 +41,5 @@ try {
   writeFileSync(join(out, "result.json"), JSON.stringify({ url, fetch: { ...fetched, hasEinstein: page.content.includes("Albert Einstein") }, session: browsed }, null, 2));
   console.log("Use fetch to read a page; use a session when you need to act on it (click, type, sign in, download).");
 } finally {
-  await session.release();
+  await session.stop();
 }

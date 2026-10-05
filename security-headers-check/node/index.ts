@@ -94,5 +94,5 @@ try {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, "result.json"), JSON.stringify({ url, finalUrl: page.finalUrl, status: page.status, redirects, present, missing, cookies, hsts, cors: { allowOrigin, allowCredentials, risk: corsRisk } }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

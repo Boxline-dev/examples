@@ -25,7 +25,7 @@ pip install -r requirements.txt && python main.py
 ```
 
 The packages are pinned in the folder's own `package.json` / `requirements.txt`. The example writes to
-`output/` (`OUTPUT_DIR` picks another folder) and releases its session when it finishes.
+`output/` (`OUTPUT_DIR` picks another folder) and stops its session when it finishes.
 
 ## The result check
 

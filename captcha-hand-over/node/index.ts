@@ -49,5 +49,5 @@ try {
   writeFileSync(join(out, "result.json"), JSON.stringify({ formUrl, attention, detected, events, title, pageSays: content.slice(0, 600) }, null, 2));
 } finally {
   stop();
-  await session.release();
+  await session.stop();
 }

@@ -24,9 +24,12 @@ try {
   await browse.goto(start);
   await browse.click('a[href*="category/books/travel_2"]');
   await browse.click("article.product_pod h3 a");
+  // A moment on the book's page, as a person would: the recording keeps a screen after a page loads, at most one per 250 ms.
+  await browse.wait("article.product_page");
+  await browse.wait(800);
   await browse.back();
 } finally {
-  await browse.release(); // the recording keeps a last frame on release
+  await browse.stop(); // the recording keeps a last frame when the session stops
 }
 
 // 2. Its recording: the frames and when each was taken.
@@ -61,5 +64,5 @@ try {
     JSON.stringify({ start, sessionId: browse.id, recordingMs: rec.durationMs, ...made, frames }, null, 2),
   );
 } finally {
-  await shell.release();
+  await shell.stop();
 }

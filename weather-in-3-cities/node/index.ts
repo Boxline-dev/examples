@@ -47,7 +47,7 @@ for (const c of CITIES) {
     });
     console.log(`${c.name}: ${area.areaName[0].value}, ${now.temp_C} °C, ${now.weatherDesc[0].value}; the browser's clock: ${clock.time} (${clock.timeZone}, ${clock.language})`);
   } finally {
-    await session.release();
+    await session.stop();
   }
 }
 

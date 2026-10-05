@@ -70,6 +70,6 @@ try {
   }
   writeFileSync(join(out, "result.json"), JSON.stringify({ billingUrl: billing, months, since, invoices }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
   await browser.close().catch(() => undefined);
 }

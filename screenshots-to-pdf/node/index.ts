@@ -41,5 +41,5 @@ try {
   console.log(`output/report.pdf: ${r.stdout.trim()} pages, ${Math.round(pdf.length / 1024)} KB`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ pages, pdfPages: Number(r.stdout.trim()), pdfBytes: pdf.length }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

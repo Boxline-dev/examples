@@ -134,5 +134,5 @@ try {
   );
   console.log(`\n${md}`);
 } finally {
-  await session.release();
+  await session.stop();
 }

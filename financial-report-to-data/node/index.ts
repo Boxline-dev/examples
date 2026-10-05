@@ -77,5 +77,5 @@ try {
   writeFileSync(join(out, "figures.json"), JSON.stringify(data, null, 2));
   writeFileSync(join(out, "result.json"), JSON.stringify({ investorUrl, report: latest, figures: data, model, usage: { modelUsd: usage.costUsd } }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

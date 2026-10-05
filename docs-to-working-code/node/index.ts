@@ -79,5 +79,5 @@ try {
     ),
   );
 } finally {
-  await session.release();
+  await session.stop();
 }

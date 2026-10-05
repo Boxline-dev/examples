@@ -106,6 +106,6 @@ try {
     pages.push(await session.evaluate(MEASURE));
   }
 } finally {
-  await session.release();
+  await session.stop();
 }
 console.log(JSON.stringify(pages.length === 1 ? pages[0] : pages, null, 2));

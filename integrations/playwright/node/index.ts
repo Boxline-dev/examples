@@ -47,6 +47,6 @@ try {
   console.log(`Page 2 starts with ${page2Author}; requests seen: ${JSON.stringify(requests)}; screenshot ${png.length} bytes`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ sessionId: session.id, quotes: first, page2Url: page.url(), page2Author, requests, screenshotBytes: png.length }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
   await browser.close().catch(() => undefined);
 }

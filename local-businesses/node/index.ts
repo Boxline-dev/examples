@@ -36,7 +36,7 @@ try {
   console.log(r.stdout.trim());
   osm = JSON.parse(await session.files.readText("businesses.json"));
 } finally {
-  await session.release();
+  await session.stop();
 }
 
 // What each offers, from its own website (the first ENRICH that list one).

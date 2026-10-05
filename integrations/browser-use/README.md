@@ -2,7 +2,7 @@
 
 A Browser Use agent, on your own OpenAI key, drives a Boxline session's browser. Nothing is launched on your computer.
 
-`Browser(cdp_url=session.connect_url, keep_alive=True)` and `Agent(task=..., llm=ChatOpenAI(...), browser=browser)`. Newer OpenAI models take only their default temperature: pass `temperature=None, frequency_penalty=None`. At the end, `await browser.stop()` (it disconnects without closing the browser), then release the session; releasing it first leaves Browser Use trying to reconnect.
+`Browser(cdp_url=session.connect_url, keep_alive=True)` and `Agent(task=..., llm=ChatOpenAI(...), browser=browser)`. Newer OpenAI models take only their default temperature: pass `temperature=None, frequency_penalty=None`. At the end, `await browser.stop()` (it disconnects without closing the browser), then stop the session; stopping it first leaves Browser Use trying to reconnect.
 
 **Needs:** any plan; your own OpenAI key; Python 3.11 or newer. **Site:** books.toscrape.com or quotes.toscrape.com, demo sites made for scraping practice.
 
@@ -18,7 +18,7 @@ pip install -r requirements.txt && python main.py
 ```
 
 The packages are pinned in the folder's own `package.json` / `requirements.txt`. The example writes to
-`output/` (`OUTPUT_DIR` picks another folder) and releases its session when it finishes.
+`output/` (`OUTPUT_DIR` picks another folder) and stops its session when it finishes.
 
 ## The result check
 

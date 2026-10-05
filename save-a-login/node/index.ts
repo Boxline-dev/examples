@@ -33,7 +33,7 @@ try {
   await rl.question("Sign in in the live view, then press Enter when you are signed in: ");
   rl.close();
 } finally {
-  await first.release(); // ending the session saves the cookies and local storage into the profile
+  await first.stop(); // ending the session saves the cookies and local storage into the profile
 }
 
 // 2. Any later session started from the profile is signed in already (it does not change the profile).
@@ -50,5 +50,5 @@ try {
   );
   console.log(`\nBrowser profile: ${saved.id} (start sessions with profile: {id: "${saved.id}"})`);
 } finally {
-  await second.release();
+  await second.stop();
 }

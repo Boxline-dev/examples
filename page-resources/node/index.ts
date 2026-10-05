@@ -102,5 +102,5 @@ try {
   writeFileSync(join(out, "report.md"), md);
   writeFileSync(join(out, "result.json"), JSON.stringify({ url, finalUrl: opened.url, status: opened.status, loadMs, requests: rows.length, totalKb, byType, byDomain, thirdParties, failed, slowest, heaviest }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }

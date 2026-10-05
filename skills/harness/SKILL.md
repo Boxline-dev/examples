@@ -61,7 +61,7 @@ ID=$(npx @boxline/cli sessions create --shell --no-browser --timeout 1800 --json
 npx @boxline/cli files put "$ID" project.tgz /tmp/project.tgz
 npx @boxline/cli exec "$ID" -- 'mkdir p && tar xzf project.tgz -C p && cd p && <install command> && <test command>'
 npx @boxline/cli exec "$ID" -- 'cd p && <build command>; cd p && <lint command>'
-npx @boxline/cli sessions release "$ID"
+npx @boxline/cli sessions stop "$ID"
 ```
 
 Record what failed there and not here: missing environment variables (names only), system packages, setup steps,

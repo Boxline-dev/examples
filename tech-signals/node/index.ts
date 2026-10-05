@@ -37,7 +37,7 @@ try {
   console.log(r.stdout.trim());
   signals = JSON.parse(await session.files.readText("signals.json"));
 } finally {
-  await session.release(); // the predictions below need no machine of ours
+  await session.stop(); // the predictions below need no machine of ours
 }
 if (!signals.themes.length) throw new Error("no theme is shared by two stories in this window; widen WINDOW_HOURS or lower MIN_POINTS");
 

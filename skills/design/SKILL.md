@@ -27,7 +27,7 @@ Write `DESIGN.md` from what the site's pages really use, measured in a Boxline b
    - `darkMode`: whether the style sheets have dark-mode rules.
 
    With only the MCP server: `session_create`, `browser_navigate`, then `run_playwright` with the `MEASURE`
-   expression from `measure.mjs` (`return await page.evaluate(MEASURE)`), then `session_close`.
+   expression from `measure.mjs` (`return await page.evaluate(MEASURE)`), then `session_stop`.
 3. **Read it as a designer.**
    - Neutral: the page background and the most-used text color.
    - Accent: the background of the most prominent buttons, and colored links.

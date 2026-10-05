@@ -55,5 +55,5 @@ try {
     JSON.stringify({ repo: shown(repo), staging, command: testCommand, exitCode: tests.exitCode, passed: count("pass"), failed: count("fail"), failures, outputTail: output.trim().slice(-3000) }, null, 2),
   );
 } finally {
-  await session.release();
+  await session.stop();
 }

@@ -68,5 +68,5 @@ try {
     JSON.stringify({ url, title: page.title, tables: summary.map((t) => ({ ...t, headers: tables[t.index - 1]!.headers, domDataRows: tables[t.index - 1]!.domDataRows })) }, null, 2),
   );
 } finally {
-  await session.release();
+  await session.stop();
 }

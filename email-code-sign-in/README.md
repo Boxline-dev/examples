@@ -48,7 +48,7 @@ pip install boxline-sdk
 python python/main.py
 ```
 
-Both write to `output/` (`OUTPUT_DIR` picks another folder), release their session and delete the credential they made
+Both write to `output/` (`OUTPUT_DIR` picks another folder), stop their session and delete the credential they made
 when they finish.
 
 ## The result check

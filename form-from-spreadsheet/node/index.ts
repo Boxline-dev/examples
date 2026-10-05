@@ -62,5 +62,5 @@ try {
   writeFileSync(join(out, "result.json"), JSON.stringify({ sheetUrl, formUrl, rows: submitted, reviewed: true, usage: { modelUsd } }, null, 2));
 } finally {
   rl.close();
-  await session.release();
+  await session.stop();
 }

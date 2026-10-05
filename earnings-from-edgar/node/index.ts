@@ -41,5 +41,5 @@ try {
   console.log(`${result.requests} requests to EDGAR; output/summary.md, output/earnings.csv, output/chart.png`);
   writeFileSync(join(out, "result.json"), JSON.stringify({ tickers: env.TICKERS.split(","), ...result }, null, 2));
 } finally {
-  await session.release();
+  await session.stop();
 }
