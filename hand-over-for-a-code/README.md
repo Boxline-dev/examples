@@ -4,7 +4,7 @@ The AI signs in with your username and a password kept as a credential; when the
 
 | | |
 |---|---|
-| Uses | `credentials.create` (the password as a secret, limited to the sign-in site with `origins`), `agent.run` with `credentials` and `variables`, `agent.stream`, `agent.handBack` |
+| Uses | `credentials.create` (the password as a secret, limited to the sign-in site with `origins`), `agent.run` with `credentials` and `variables`, `agent.stream`, `agent.resume` with a note |
 | Needs | a plan with room for credentials, and a model on the API |
 | Site | your sign-in page (`SIGNIN_URL`). The runner uses its stand-in (password, then a 6-digit code) and types the code |
 | Output | `output/result.json` |

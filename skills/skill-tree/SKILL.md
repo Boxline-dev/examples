@@ -14,7 +14,7 @@ the usage (`/skill-tree supabase-auth`, `/skill-tree https://docs.stripe.com/web
 
 ## Boxline tools
 
-The MCP server's `web_search` and `fetch_url`, or the CLI: `npx @boxline/cli search "<query>" --limit 8 --json` and
+The MCP server's `web_search` and `web_fetch`, or the CLI: `npx @boxline/cli search "<query>" --limit 8 --json` and
 `npx @boxline/cli fetch <url>`.
 
 ## Steps

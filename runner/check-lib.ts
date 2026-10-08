@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { inflateRawSync } from "node:zlib";
+import { gunzipSync, inflateRawSync } from "node:zlib";
 
 /**
  * Helpers for the examples' result checks. A check runs as `npx tsx check.ts <output dir>` after its example, reads
@@ -67,6 +67,39 @@ export function unzip(b: Buffer): { name: string; data: Buffer }[] {
     files.push({ name, data: method === 8 ? inflateRawSync(raw) : Buffer.from(raw) });
   }
   return files;
+}
+
+/**
+ * The entries of a `.tar.gz` (name with a leading `./` removed, type flag: "0" file, "5" folder, "2" link, and the
+ * content of a file), read from the tar blocks. Long names in pax (`x`) and GNU (`L`) headers are followed.
+ */
+export function untarGz(b: Buffer): { name: string; type: string; data: Buffer }[] {
+  const tar = gunzipSync(b);
+  const text = (from: number, to: number) => tar.subarray(from, to).toString("utf8").replace(/\0.*$/s, "");
+  const entries: { name: string; type: string; data: Buffer }[] = [];
+  let longName: string | undefined;
+  for (let at = 0; at + 512 <= tar.length; ) {
+    const header = text(at, at + 100);
+    if (!header && tar.subarray(at, at + 512).every((x) => x === 0)) break;
+    const size = parseInt(text(at + 124, at + 136).trim() || "0", 8);
+    const type = text(at + 156, at + 157) || "0";
+    const prefix = text(at + 345, at + 500);
+    const data = Buffer.from(tar.subarray(at + 512, at + 512 + size));
+    at += 512 + Math.ceil(size / 512) * 512;
+    if (type === "L") {
+      longName = data.toString("utf8").replace(/\0.*$/s, "");
+      continue;
+    }
+    if (type === "x") {
+      const path = /\d+ path=([^\n]*)\n/.exec(data.toString("utf8"));
+      if (path) longName = path[1];
+      continue;
+    }
+    const name = (longName ?? (prefix ? `${prefix}/${header}` : header)).replace(/^\.\//, "").replace(/\/$/, "");
+    longName = undefined;
+    entries.push({ name, type, data });
+  }
+  return entries;
 }
 
 export const sha256 = (b: Buffer) => createHash("sha256").update(b).digest("hex");

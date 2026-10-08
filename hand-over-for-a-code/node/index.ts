@@ -53,7 +53,7 @@ for await (const e of bx.agent.stream(run.id)) {
     handovers++;
     console.log(`\nThe AI asks: ${e.text}`);
     const code = await rl.question("Type the code the site sent you: ");
-    await bx.agent.handBack(run.id, `The verification code is ${code.trim()}`);
+    await bx.agent.resume(run.id, { note: `The verification code is ${code.trim()}` });
   } else if (e.type === "done") console.log(`\n${e.status}: ${e.result ?? e.error}`);
 }
 rl.close();

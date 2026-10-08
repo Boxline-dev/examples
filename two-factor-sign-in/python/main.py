@@ -55,7 +55,7 @@ print(f"Browser profile {profile_id} signs in with {name}: {credential['username
 run = bx.agent.run(
     f"Open {signin} and sign in: type %{name}.username% as the email or user name and %{name}.password% as the password. "
     f"When the site asks for a verification code from an authenticator app, type %{name}.otp%. Then tell me the name shown on the page.",
-    profile={"id": profile_id},
+    session={"profile": {"id": profile_id}},
     max_steps=20,
 )
 print(f"Agent run {run['id']} ({run['provider']}/{run['model']}) · Session: {run['sessionId']}", flush=True)

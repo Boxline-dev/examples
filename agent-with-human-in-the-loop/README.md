@@ -4,7 +4,7 @@ An agent that asks you when it is unsure (here: which of several books to pick),
 
 | | |
 |---|---|
-| Uses | `agent.run`, `agent.stream` (handover steps, thoughts), `agent.handBack` with a note |
+| Uses | `agent.run`, `agent.stream` (handover steps, thoughts), `agent.resume` with a note |
 | Needs | a model on the API |
 | Site | books.toscrape.com (a demo shop) |
 | Output | `output/result.json` |

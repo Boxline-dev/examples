@@ -14,7 +14,7 @@ Claude Code skills that use Boxline to read the web: copy a folder into your pro
 ## What they need
 
 - A Boxline API key: `npx @boxline/cli login`, or `BOXLINE_API_KEY` in the environment.
-- Either the Boxline MCP server (`fetch_url`, `web_search`, sessions) or the CLI (`npx @boxline/cli search|fetch|crawl`).
+- Either the Boxline MCP server (`web_fetch`, `web_search`, sessions) or the CLI (`npx @boxline/cli search|fetch|crawl`).
   `design` also runs `measure.mjs` with Node 18+ (`npx -y -p @boxline/sdk node measure.mjs <url>`).
 
 ```bash

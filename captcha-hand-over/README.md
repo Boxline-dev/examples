@@ -4,7 +4,7 @@ Open a form behind a CAPTCHA, see the platform detect it, have a person solve it
 
 | | |
 |---|---|
-| Uses | sessions with `captcha: "ask"`, `attention`, `onCaptcha` (Node), `waitForHuman` / `wait_for_human`, `captcha` events |
+| Uses | sessions with `captcha: "ask"`, `attention`, `onCaptcha` / `on_captcha`, `waitForHuman` / `wait_for_human`, `captcha` events |
 | Needs | any plan; no model |
 | Site | a form of your own site with a CAPTCHA (`FORM_URL`, required). The runner uses its stand-in form with a stand-in reCAPTCHA widget and plays the person |
 | Output | `output/result.json` |

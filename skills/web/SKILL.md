@@ -11,7 +11,7 @@ Write `web.md`: what a public website has and how to get around it, from its ren
 
 Use whichever is there:
 
-- The Boxline MCP server: `fetch_url` (format `html` or `markdown`), `web_search`.
+- The Boxline MCP server: `web_fetch` (format `html` or `markdown`), `web_search`.
 - The `boxline` CLI (`npx @boxline/cli …`, with `BOXLINE_API_KEY` set or after `npx @boxline/cli login`).
 
 ## Steps
@@ -23,7 +23,7 @@ Use whichever is there:
    npx @boxline/cli crawl <url> --limit 15 --format html -o .boxline-web
    ```
 
-   With only the MCP server: `fetch_url` the start page as `html`, take its same-host links (no anchors, assets or
+   With only the MCP server: `web_fetch` the start page as `html`, take its same-host links (no anchors, assets or
    duplicate addresses), and fetch up to 14 of them. A page that fails is skipped.
 3. **Each page, from its HTML.** Record only what is there:
    - navigation: main menu, sidebar, breadcrumbs, footer links (label → address);

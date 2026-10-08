@@ -53,7 +53,7 @@ const run = await bx.agent.run({
   task:
     `Open ${signin} and sign in: type %${credential.name}.username% as the email or user name and %${credential.name}.password% as the password. ` +
     `When the site asks for a verification code from an authenticator app, type %${credential.name}.otp%. Then tell me the name shown on the page.`,
-  profile: { id: profileId },
+  session: { profile: { id: profileId } },
   maxSteps: 20,
 });
 console.log(`Agent run ${run.id} (${run.provider}/${run.model}) · Session: ${run.sessionId}`);

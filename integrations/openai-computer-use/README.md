@@ -1,6 +1,6 @@
 # OpenAI computer use with Boxline
 
-Your own loop with OpenAI's computer tool (Responses API, `{type: "computer"}`): the model looks at screenshots and answers with `computer_call`s; each action goes to the session unchanged through `session.computer()` (POST /v1/sessions/:id/computer), and the screen after it goes back to the model.
+Your own loop with OpenAI's computer tool (Responses API, `{type: "computer"}`): the model looks at screenshots and answers with `computer_call`s; each action goes to the session unchanged through `session.computer()` (POST /v1/sessions/:id/browser/computer), and the screen after it goes back to the model.
 
 One `computer_call` can carry several actions: run them in order with `screenshot: false` on all but the last, and send one `computer_call_output` with the last screenshot. Use the same `maxWidth` on every call: the model's coordinates are read in the screenshot's pixels. The tool sees only the page (no address bar), so open the start page first. When OpenAI sends `pending_safety_checks`, a person confirms in the terminal; the loop never acknowledges one by itself.
 

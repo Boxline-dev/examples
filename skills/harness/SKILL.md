@@ -77,7 +77,7 @@ npx @boxline/cli search "<library> <major version> documentation" --limit 5
 npx @boxline/cli fetch <docs-url>
 ```
 
-(or the MCP server's `web_search` and `fetch_url`). Keep only what bears on a failure from step 2 or 3, or what
+(or the MCP server's `web_search` and `web_fetch`). Keep only what bears on a failure from step 2 or 3, or what
 contradicts a common assumption (a renamed API, a new default, a removed option). Without Boxline set up, skip this
 step and say so.
 

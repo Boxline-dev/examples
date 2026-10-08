@@ -15,7 +15,7 @@ out = Path(os.environ.get("OUTPUT_DIR", "output"))
 task = os.environ.get(
     "TASK",
     "On https://books.toscrape.com, open the Travel category and find the books that cost less than £30. If more than one "
-    "fits, don't finish yet: ask me for help to choose, and wait until I hand the browser back with my choice. Then tell "
+    "fits, don't finish yet: ask me for help to choose, and wait until I resume the run with my choice. Then tell "
     "me the title and price of the one I chose.",
 )
 bx = Boxline()
@@ -33,7 +33,7 @@ for e in bx.agent.stream(run["id"]):
         # The run is paused: the browser is yours (watch or act in the live view), and your note goes back to the agent.
         questions.append(e.get("text") or "")
         print(f"\nThe agent asks: {e.get('text')}")
-        bx.agent.hand_back(run["id"], input("Your answer: "))
+        bx.agent.resume(run["id"], note=input("Your answer: "))
     elif e["type"] == "done":
         print(f"\n{e['status']}: {e.get('result') or e.get('error')}")
 

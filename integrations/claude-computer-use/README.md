@@ -1,6 +1,6 @@
 # Claude computer use with Boxline
 
-Your own loop with Claude's computer tool (Messages API, beta `computer-use-2025-11-24`): Claude looks at screenshots and answers with `tool_use` blocks; each block's input goes to the session unchanged through `session.computer()` (POST /v1/sessions/:id/computer), and the screen after it goes back as the tool result.
+Your own loop with Claude's computer tool (Messages API, beta `computer-use-2025-11-24`): Claude looks at screenshots and answers with `tool_use` blocks; each block's input goes to the session unchanged through `session.computer()` (POST /v1/sessions/:id/browser/computer), and the screen after it goes back as the tool result.
 
 Tell Claude the screenshots' size (`display_width_px`, `display_height_px`) from a first `screenshot` action with the `maxWidth` you use on every call. `computer_20251124` is for Claude Opus 5 and Sonnet 5; Claude Haiku 4.5 uses `computer_20250124` with the beta `computer-use-2025-01-24`. The tool sees only the page (no address bar), so open the start page first.
 

@@ -15,7 +15,7 @@ const out = process.env.OUTPUT_DIR ?? "output";
 const task =
   process.env.TASK ??
   "On https://books.toscrape.com, open the Travel category and find the books that cost less than £30. If more than one " +
-    "fits, don't finish yet: ask me for help to choose, and wait until I hand the browser back with my choice. Then tell " +
+    "fits, don't finish yet: ask me for help to choose, and wait until I resume the run with my choice. Then tell " +
     "me the title and price of the one I chose.";
 const bx = new Boxline();
 
@@ -32,7 +32,7 @@ for await (const e of bx.agent.stream(run.id)) {
     questions.push(e.text ?? "");
     console.log(`\nThe agent asks: ${e.text}`);
     const answer = await rl.question("Your answer: ");
-    await bx.agent.handBack(run.id, answer);
+    await bx.agent.resume(run.id, { note: answer });
   } else if (e.type === "done") console.log(`\n${e.status}: ${e.result ?? e.error}`);
 }
 rl.close();

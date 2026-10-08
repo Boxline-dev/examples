@@ -18,7 +18,7 @@ become kebab-case folder names.
 
 ## Boxline tools
 
-- The Boxline MCP server: `web_search` (with `fetch` for the top pages as Markdown), `fetch_url`.
+- The Boxline MCP server: `web_search` (with `fetch` for the top pages as Markdown), `web_fetch`.
 - Or the CLI (`BOXLINE_API_KEY` set, or `npx @boxline/cli login`):
 
   ```bash

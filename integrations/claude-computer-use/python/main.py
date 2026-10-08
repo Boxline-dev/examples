@@ -1,6 +1,6 @@
 """Claude computer use with Boxline: your own loop with Claude's computer tool (Messages API, beta). Claude looks at
 screenshots and answers with tool_use blocks; each block's input goes to the session unchanged
-(POST /v1/sessions/:id/computer), and the screen after it goes back to Claude as the tool result.
+(POST /v1/sessions/:id/browser/computer), and the screen after it goes back to Claude as the tool result.
 
     pip install -r requirements.txt && python main.py     (BOXLINE_API_KEY and ANTHROPIC_API_KEY; CUA_MODEL, TASK)
 

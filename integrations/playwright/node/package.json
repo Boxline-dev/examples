@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@boxline/sdk": "^2.0.0",
+    "@boxline/sdk": "^3.0.0",
     "playwright-core": "1.63.0",
     "tsx": "4.23.15"
   }

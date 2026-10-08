@@ -22,17 +22,29 @@ bx = Boxline()
 
 with bx.sessions.create(captcha="ask", keep_alive=True, timeout=600, user_metadata={"example": "captcha-hand-over"}) as session:
     print(f"Session: {session.id}", flush=True)
-    session.goto(form_url)
-    # The platform looks twice, about 2 s apart, before it says a CAPTCHA waits for a person.
-    deadline = time.monotonic() + 30
-    while not session.refresh().data.get("attention") and time.monotonic() < deadline:
-        time.sleep(1)
-    attention = session.data.get("attention")
-    if attention:
-        print(f"\nA CAPTCHA ({attention['kind']}) is waiting for a person on {attention['url']}: solve it in the live view "
-              f"(the link works like a password):\n  {session.live_url}\n", flush=True)
-        session.wait_for_human(timeout=300)  # raises CaptchaTimeoutError if nobody solves it
-        print(f"The CAPTCHA ({attention['kind']}) was solved.")
+    detected = False
+
+    def on_captcha(change):
+        global detected
+        if change["state"] == "detected":
+            detected = True
+            print(f"\nA CAPTCHA ({change['kind']}) is waiting for a person on {change['url']}: solve it in the live view "
+                  f"(the link works like a password):\n  {session.live_url}\n", flush=True)
+        else:
+            print(f"The CAPTCHA ({change['kind']}) was solved.", flush=True)
+
+    stop = session.on_captcha(on_captcha, interval=1)  # a background thread; stop() ends it
+    try:
+        session.goto(form_url)
+        # The platform looks twice, about 2 s apart, before it says a CAPTCHA waits for a person.
+        deadline = time.monotonic() + 30
+        while not session.refresh().data.get("attention") and time.monotonic() < deadline:
+            time.sleep(1)
+        attention = session.data.get("attention")
+        if attention:
+            session.wait_for_human(timeout=300)  # raises CaptchaTimeoutError if nobody solves it
+    finally:
+        stop()
 
     session.fill('input[name="name"]', name)
     session.click('form [type="submit"], form button')
@@ -43,5 +55,5 @@ with bx.sessions.create(captcha="ask", keep_alive=True, timeout=600, user_metada
     events = [{"state": (e.get("data") or {}).get("state"), "kind": (e.get("data") or {}).get("kind"), "waitedMs": (e.get("data") or {}).get("waitedMs")}
               for e in session.events(types=["captcha"]).data]
     out.mkdir(parents=True, exist_ok=True)
-    result = {"formUrl": form_url, "attention": attention, "detected": bool(attention), "events": events, "title": page["title"], "pageSays": page["content"][:600]}
+    result = {"formUrl": form_url, "attention": attention, "detected": detected, "events": events, "title": page["title"], "pageSays": page["content"][:600]}
     (out / "result.json").write_text(json.dumps(result, indent=2, ensure_ascii=False))

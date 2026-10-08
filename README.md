@@ -26,6 +26,7 @@ with `userMetadata: {example: "<name>"}` and stop them when they finish.
 | Group | Example | Uses |
 |---|---|---|
 | Get started | [sessions-and-playwright](sessions-and-playwright) | session, Playwright over CDP, actions |
+| Get started | [update-a-session](update-a-session) | `session.update({ timeout, rotateUrls })`: a longer life, fresh URLs, the old ones refused |
 | Get started | [fetch-or-browser](fetch-or-browser) | fetch, a session driven by actions |
 | Get started | [search-read-answer](search-read-answer) | search with fetch, extract |
 | Data out | [product-to-json](product-to-json) | extract with a schema |
@@ -48,7 +49,7 @@ with `userMetadata: {example: "<name>"}` and stop them when they finish.
 | Monitoring | [changelog-watcher](changelog-watcher) | task with an output schema and a schedule, a chat webhook |
 | Monitoring | [security-headers-check](security-headers-check) | fetch, a shell-only session |
 | AI agents | [research-a-question](research-a-question) | agent run with web search |
-| AI agents | [agent-with-human-in-the-loop](agent-with-human-in-the-loop) | agent run, hand-over and hand-back |
+| AI agents | [agent-with-human-in-the-loop](agent-with-human-in-the-loop) | agent run, hand-over and resume |
 | AI agents | [computer-use](computer-use) | agent run in mode "computer" |
 | AI agents | [compare-models](compare-models) | a benchmark: agent runs per task and model, scored in code |
 | Browser + shell | [download-and-add-up](download-and-add-up) | Playwright download, Python in the shell, a form |
@@ -58,10 +59,12 @@ with `userMetadata: {example: "<name>"}` and stop them when they finish.
 | Browser + shell | [test-my-staging-site](test-my-staging-site) | shell (git, npm test), the browser for failures |
 | Browser + shell | [tables-to-csv](tables-to-csv) | tables read in the page (merged cells, two-row headers), CSV and sums in the shell |
 | Browser + shell | [session-replay-gif](session-replay-gif) | a session's recording, ffmpeg in a shell-only session |
+| Browser + shell | [results-after-stop](results-after-stop) | files listed, read and downloaded as one `.tar.gz` from a STOPPED session without resuming it; a shell-only session has no `liveUrl` |
 | Browser + shell | [solve-and-test](solve-and-test) | an agent run in a shell-only session, the tests rerun by the example |
 | Browser + shell | [docs-to-working-code](docs-to-working-code) | an agent reads API docs in the browser, writes and runs a client in the shell |
 | Browser + shell | [earnings-from-edgar](earnings-from-edgar) | SEC EDGAR's API in a shell-only session, growth and margins in Python, a chart |
 | AI agents | [wiki-race](wiki-race) | an agent run that clicks links only, every hop checked with Wikipedia's API in the shell |
+| AI agents | [shell-only-agent](shell-only-agent) | an agent run with its own shell-only session (`session: { browser: false, shell: true }`): CSV, statistics in Python, a report; every number checked |
 | Quality | [accessibility-check](accessibility-check) | shell, Playwright, axe-core |
 | Quality | [dark-pattern-review](dark-pattern-review) | agent run in a session, evaluate (scan.js), the extract action |
 | Chat and research | [chat-with-a-page](chat-with-a-page) | a session, the extract action per question, quotes checked |

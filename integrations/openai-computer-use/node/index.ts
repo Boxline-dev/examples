@@ -1,7 +1,7 @@
 /**
  * OpenAI computer use with Boxline: your own loop with OpenAI's computer tool (Responses API, `{type: "computer"}`).
  * The model looks at screenshots and answers with `computer_call`s; each action goes to the session unchanged
- * (POST /v1/sessions/:id/computer), and the screen after it goes back to the model.
+ * (POST /v1/sessions/:id/browser/computer), and the screen after it goes back to the model.
  *
  *   npm install && npx tsx index.ts        (BOXLINE_API_KEY and OPENAI_API_KEY in the environment; CUA_MODEL, TASK)
  *

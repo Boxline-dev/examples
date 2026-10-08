@@ -52,7 +52,7 @@ for e in bx.agent.stream(run["id"]):
         handovers += 1
         print(f"\nThe AI asks: {e.get('text')}")
         code = input("Type the code the site sent you: ")
-        bx.agent.hand_back(run["id"], f"The verification code is {code.strip()}")
+        bx.agent.resume(run["id"], note=f"The verification code is {code.strip()}")
     elif e["type"] == "done":
         print(f"\n{e['status']}: {e.get('result') or e.get('error')}")
 
