@@ -1,11 +1,12 @@
 /**
- * Claude computer use with Boxline: your own loop with Claude's computer tool (Messages API, beta). Claude looks at
- * screenshots and answers with `tool_use` blocks; each block's input goes to the session unchanged
- * (POST /v1/sessions/:id/browser/computer), and the screen after it goes back to Claude as the tool result.
+ * Claude computer use with Boxline: your own loop with Claude's computer toolset (Messages API). Claude looks at
+ * screenshots and answers with one `tool_use` block per action, named after the action (`left_click`, `type`, …); each
+ * goes to the session as `{action: <name>, ...input}` (POST /v1/sessions/:id/browser/computer), and the result goes
+ * back to Claude with `toolset_name: "computer"`.
  *
  *   npm install && npx tsx index.ts        (BOXLINE_API_KEY and ANTHROPIC_API_KEY in the environment; CUA_MODEL, TASK)
  *
- * The tool sees only the page (there is no address bar): the loop opens the start page first. Writes output/result.json.
+ * The toolset sees only the page (there is no address bar): the loop opens the start page first. Writes output/result.json.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -15,7 +16,7 @@ import { Boxline, type ComputerAction } from "@boxline/sdk";
 const out = process.env.OUTPUT_DIR ?? "output";
 const start = process.env.START_URL ?? "https://books.toscrape.com/";
 const task = process.env.TASK ?? "Open the Poetry category and tell me the title and price of the cheapest book in it.";
-const model = process.env.CUA_MODEL ?? "claude-sonnet-5"; // computer_20251124; claude-haiku-4-5 uses computer_20250124
+const model = process.env.CUA_MODEL ?? "claude-sonnet-5-5"; // any Claude 5.5 model: they take computer_toolset_20260801
 const MAX_WIDTH = 1024; // screenshots are this wide; Claude's coordinates are read in these pixels
 const anthropic = new Anthropic();
 const bx = new Boxline();
@@ -27,34 +28,43 @@ let tokens = 0;
 let answer = "";
 try {
   await session.goto(start);
-  // The display size Claude is told is the size of the screenshots it gets.
-  const screen = await session.computer({ action: "screenshot" }, { maxWidth: MAX_WIDTH });
-  if (!screen.width || !screen.height) throw new Error("the session returned no screenshot size");
-  const tool: Anthropic.Beta.BetaToolComputerUse20251124 = { type: "computer_20251124", name: "computer", display_width_px: screen.width, display_height_px: screen.height };
-  const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: `${task} (The browser shows ${start}.)` }];
+  // No screen size: Claude's coordinates are in the pixels of the screenshots it gets (all MAX_WIDTH wide).
+  const tools: Anthropic.ToolUnion[] = [{ type: "computer_toolset_20260801" }];
+  const messages: Anthropic.MessageParam[] = [{ role: "user", content: `${task} (The browser shows ${start}.)` }];
 
   for (let turn = 0; turn < 30; turn++) {
-    const res = await anthropic.beta.messages.create({ model, max_tokens: 4096, tools: [tool], messages, betas: ["computer-use-2025-11-24"] });
+    // Streamed: a large max_tokens needs it. The conversation is only ever appended to (Claude's thinking is bound to it).
+    const res = await anthropic.messages.stream({ model, max_tokens: 64000, tools, messages }).finalMessage();
     tokens += res.usage.input_tokens + res.usage.output_tokens;
     messages.push({ role: "assistant", content: res.content });
-    const uses = res.content.filter((b): b is Anthropic.Beta.BetaToolUseBlock => b.type === "tool_use");
+    const uses = res.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
     if (!uses.length) {
       answer = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("\n");
       break;
     }
-    const results: Anthropic.Beta.BetaToolResultBlockParam[] = [];
-    for (const use of uses) {
-      const input = use.input as ComputerAction;
+    // A turn's actions run in order; after a failed one the rest are not run.
+    const results: Anthropic.ToolResultBlockParam[] = [];
+    let failed = false;
+    for (const [i, use] of uses.entries()) {
+      if (failed) {
+        results.push({ type: "tool_result", tool_use_id: use.id, toolset_name: "computer", is_error: true, content: "Not executed: an earlier computer action in this turn failed." });
+        continue;
+      }
+      const input = { ...(use.input as object), action: use.name } as ComputerAction;
       const after = await session.computer(input, { maxWidth: MAX_WIDTH });
       actions.push(input);
-      console.log(`→ ${(input as { action?: string }).action}: ${after.text}`);
+      console.log(`→ ${use.name}: ${after.text}`);
+      failed = !after.ok;
+      // The screen goes back with screenshot and zoom, a failed action and the turn's last action; others say what they did.
+      const showScreen = use.name === "screenshot" || use.name === "zoom" || failed || i === uses.length - 1;
       results.push({
         type: "tool_result",
         tool_use_id: use.id,
-        is_error: !after.ok,
+        toolset_name: "computer",
+        is_error: failed,
         content: [
-          ...(after.ok ? [] : [{ type: "text" as const, text: after.error ?? "the action failed" }]),
-          ...(after.screenshot ? [{ type: "image" as const, source: { type: "base64" as const, media_type: after.mimeType as "image/png" | "image/jpeg", data: after.screenshot } }] : []),
+          { type: "text", text: after.ok ? after.text || "Done." : (after.error ?? "the action failed") },
+          ...(showScreen && after.screenshot ? [{ type: "image" as const, source: { type: "base64" as const, media_type: after.mimeType as "image/png" | "image/jpeg", data: after.screenshot } }] : []),
         ],
       });
     }

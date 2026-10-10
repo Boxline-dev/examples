@@ -1,12 +1,12 @@
 # Claude computer use with Boxline
 
-Your own loop with Claude's computer tool (Messages API, beta `computer-use-2025-11-24`): Claude looks at screenshots and answers with `tool_use` blocks; each block's input goes to the session unchanged through `session.computer()` (POST /v1/sessions/:id/browser/computer), and the screen after it goes back as the tool result.
+Your own loop with Claude's computer toolset (`computer_toolset_20260801`, Messages API, no beta): Claude looks at screenshots and answers with one `tool_use` block per action, named after it (`left_click`, `type`, …). Each goes to the session as `{action: <name>, ...input}` through `session.computer()` (POST /v1/sessions/:id/browser/computer), and the result goes back with `toolset_name: "computer"`.
 
-Tell Claude the screenshots' size (`display_width_px`, `display_height_px`) from a first `screenshot` action with the `maxWidth` you use on every call. `computer_20251124` is for Claude Opus 5 and Sonnet 5; Claude Haiku 4.5 uses `computer_20250124` with the beta `computer-use-2025-01-24`. The tool sees only the page (no address bar), so open the start page first.
+The toolset takes no screen size: Claude's coordinates are in the pixels of the screenshots it gets, so use the same `maxWidth` on every call. A turn's actions run in order and stop at a failed one. The Claude 5.5 models (Opus, Sonnet, Haiku) take only this toolset. It sees only the page (no address bar), so open the start page first.
 
 **Needs:** any plan; your own Anthropic key. **Site:** books.toscrape.com or quotes.toscrape.com, demo sites made for scraping practice.
 
-**Environment:** `BOXLINE_API_KEY`, `ANTHROPIC_API_KEY` (your Anthropic key), `CUA_MODEL` (a Claude model with the computer tool; default `claude-sonnet-5`), `START_URL` (the page the loop opens first; default `https://books.toscrape.com/`), `TASK` (your own task).
+**Environment:** `BOXLINE_API_KEY`, `ANTHROPIC_API_KEY` (your Anthropic key), `CUA_MODEL` (a Claude 5.5 model; default `claude-sonnet-5-5`), `START_URL` (the page the loop opens first; default `https://books.toscrape.com/`), `TASK` (your own task).
 
 ## Run it
 

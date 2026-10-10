@@ -5,7 +5,7 @@ The agent drives the browser the way a person does, from screenshots with the mo
 | | |
 |---|---|
 | Uses | `agent.run` with `mode: "computer"`, `agent.models` (`supportsComputerUse`), `agent.stream` |
-| Needs | a model with a computer-use tool on the API (Claude Opus 5, Sonnet 5, Haiku 4.5; GPT-6 Sol, Astra, Luna) |
+| Needs | a model with a computer-use tool on the API (Claude Opus 5.5, Sonnet 5.5, Haiku 5.5; GPT-6 Sol, Astra, Luna) |
 | Site | books.toscrape.com (a demo shop) |
 | Output | `output/result.json` with the answer and every screen action |
 
